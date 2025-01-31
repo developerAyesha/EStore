@@ -1,22 +1,7 @@
 import mongoose from 'mongoose';
 const Product = require('../../Models/Product'); 
+import { DbConnection } from './DB';
 
-const DbConnection = async () => {
-  if (mongoose.connections[0].readyState) {
-    console.log('Already connected to the database');
-    return;
-  }
-  try {
-    await mongoose.connect('mongodb://localhost:27017/CodesWeare', {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-    console.log('Database connected successfully');
-  } catch (error) {
-    console.error('Error connecting to database:', error);
-    throw new Error('Database connection error');
-  }
-};
 
 export default async function handler(req, res) {
   console.log('Handler started');
@@ -30,7 +15,7 @@ export default async function handler(req, res) {
 
   console.log('Database connection established');
   try {
-    const products = await Product.find({ category: Category });
+    const products = await Product.find();
     console.log('Products:', products);
 
     let product = {};

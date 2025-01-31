@@ -2,23 +2,7 @@ import mongoose from 'mongoose';
 const User = require('../../Models/User')
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-
- const DbConnection = async () => {
-  if (mongoose.connections[0].readyState) {
-    console.log('Already connected to the database');
-    return;
-  }
-  try {
-    await mongoose.connect('mongodb://localhost:27017/CodesWeare', {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-    console.log('Database connected successfully');
-  } catch (error) {
-    console.error('Error connecting to database:', error);
-    throw new Error('Database connection error');
-  }
-};
+import { DbConnection } from './DB';
 
 export default async function handler(req, res) {
   console.log('Handler started');
@@ -41,20 +25,21 @@ export default async function handler(req, res) {
   
     const user = await User.findOne({email:req.body.email});
     console.log('user is ',user);
+    const {subscriptionStatus} =user;
     if(user){
        const hashPassword = await bcrypt.compare(req.body.password,user.password);
        console.log('compare hash',hashPassword)
       if(user.email==req.body.email && hashPassword==true){
-        var token = jwt.sign({email}, 'shhhhh',{expiresIn:'2d'});
-
+        var token = jwt.sign({email,subscriptionStatus}, 'shhhhh',{expiresIn:'2d'});
+        res.setHeader('Set-Cookie', `token=${token}; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=172800`);
         return  res.status(200).json({success:true,message:"User Login succesfully",token})
       }
       else {
-        return  res.status(400).json({success:true,message:"Email and Password not match"})
+        return  res.status(500).json({success:false,message:"Email and Password not match"})
       }
     }
     else {
-        return res.status(400).json({message:'This User is not exixt'})
+        return res.status(400).json({message:'This User is not exist'})
     }
    
   

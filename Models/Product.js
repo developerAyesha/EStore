@@ -23,8 +23,10 @@ const ProductSchema = new mongoose.Schema({
         required: true
     },
     category: {
-        type: String,
-        required: true
+        type:mongoose.Schema.Types.ObjectId,
+        ref: 'Category',
+        required:true
+
     },
     color: {
         type: String,
@@ -37,7 +39,8 @@ const ProductSchema = new mongoose.Schema({
     availableQuantity: {
         type: Number,
         required: true
-    }
+    },
+    isPremium: { type: Boolean, default: false }
 }, { timestamps: true });
 
 module.exports =mongoose?.models?.Product|| mongoose.model('Product', ProductSchema);

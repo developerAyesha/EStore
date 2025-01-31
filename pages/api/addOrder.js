@@ -21,11 +21,11 @@ const DbConnection = async () => {
 export default async function handler(req, res) {
   console.log('req body.....', req.body);
   const { personalInfo, cartItems, paymentMethod, tempCart } = req.body;
-  const { email, address } = personalInfo;
+  const { name, email, address, phone, city, state, pincode } = personalInfo;
   let { amount } = req.body;
 
-  console.log('personal details ,,,,,,', personalInfo, cartItems, paymentMethod, amount);
-  console.log('email and address .....', email, address);
+  console.log('Personal details ,,,,,,', personalInfo, cartItems, paymentMethod, amount);
+  console.log('Email and address .....', email, address);
 
   console.log('Handler started');
 
@@ -41,6 +41,7 @@ export default async function handler(req, res) {
   try {
     let products = [];
 
+    // Handle tempCart or cartItems
     if (tempCart && Object.keys(tempCart).length > 0) {
       // Handle tempCart data
       products.push({
@@ -60,16 +61,25 @@ export default async function handler(req, res) {
       return res.status(400).json({ success: false, message: 'No cart data provided' });
     }
 
-    console.log('products....', products);
+    console.log('Products....', products);
 
     let useremail = email;
-
     
+    // Create the new order object
     const newOrder = new OrderModel({
-      useremail,
+  
       Products: products,
-      address,
       amount,
+      ShippingInfo: {
+        name,
+        email,
+        address,
+        phone,
+        city,
+        state,
+        pincode
+      },
+      // If you want to store payment method as well
     });
 
     console.log('Order object created:', newOrder);
@@ -84,4 +94,3 @@ export default async function handler(req, res) {
     return res.status(500).json({ success: false, message: 'Internal Server Error' });
   }
 }
-

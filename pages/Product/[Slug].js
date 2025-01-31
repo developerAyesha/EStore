@@ -12,6 +12,7 @@ import { addCart } from "../Store/cartSlice";
 
 
 const Post = ({ cart, addtoCart, buyNow, removetoCart, subtotal, data }) => {
+  
   const disaptch = useDispatch();
   const { product, colorSizeSlug } = data;
   console.log("data", data);
@@ -77,7 +78,7 @@ const Post = ({ cart, addtoCart, buyNow, removetoCart, subtotal, data }) => {
             <img
               alt="ecommerce"
               className="lg:w-1/2 w-full lg:h-auto px-20 object-cover object-top rounded"
-              src="https://m.media-amazon.com/images/I/71m7BI64B8L._AC_SX679_.jpg"
+              src={product.img}
             />
             <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
               <h2 className="text-sm title-font text-gray-500 tracking-widest">
@@ -87,7 +88,7 @@ const Post = ({ cart, addtoCart, buyNow, removetoCart, subtotal, data }) => {
                 {product.title} ({product.color}/{product.size})
               </h1>
               <h2 className="text-sm title-font text-gray-500 tracking-widest">
-                {product.category}
+                {product.category.name}
               </h2>
               <div className="flex mb-4">
                 <span className="flex items-center">
@@ -334,38 +335,9 @@ const Post = ({ cart, addtoCart, buyNow, removetoCart, subtotal, data }) => {
                 >
                   Add to cart
                 </button>
-                {/* <button className="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4">
-            <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" className="w-5 h-5" viewBox="0 0 24 24">
-              <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path>
-            </svg>
-          </button> */}
+             
               </div>
-              {/* <div className="flex mt-6 space-x-2 text-sm">
-                <input
-                  className="px-2 border-2 border-pink-200 rounded-sm"
-                  onChange={handlePinstate}
-                  placeholder="Enter your Pincode"
-                  type="text"
-                />
-                <button
-                  onClick={checkServiceAvailability}
-                  className="text-white bg-pink-500 border-0 py-2 px-6 focus:outline-none hover:bg-pink-600 rounded"
-                >
-                  Check
-                </button>
-              </div>
-
-              {serviceAvailability === false && (
-                <div className="text-red-700 text-sm mt-4">
-                  Sorry! We do not deliver to this pin code.
-                </div>
-              )} */}
-
-              {/* {serviceAvailability === true && (
-                <div className="text-green-700 text-sm mt-4">
-                  Yay! Pincode is serviceable.
-                </div>
-              )} */}
+             
             </div>
           </div>
         </div>

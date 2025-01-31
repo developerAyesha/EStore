@@ -1,10 +1,7 @@
 const mongoose = require('mongoose');
 
 const OrderSchema = new mongoose.Schema({
-  useremail: {
-    type: String,
-    required: true,
-  },
+
   Products: [
     {
       slug: {
@@ -17,10 +14,7 @@ const OrderSchema = new mongoose.Schema({
       },
     },
   ],
-  address: {
-    type: String,
-    required: true,
-  },
+
   amount: {
     type: Number,
     required: true,
@@ -29,8 +23,36 @@ const OrderSchema = new mongoose.Schema({
     type: String,
     default: 'booked',
   },
+  ShippingInfo: {
+    name: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+      required: true,
+    },
+    address: {
+      type: String,
+      required: true,
+    },
+    phone: {
+      type: String,
+      required: true,
+    },
+    city: {
+      type: String,
+      required: true,
+    },
+    state: {
+      type: String,
+      required: true,
+    },
+    pincode: {
+      type: String,
+      required: true,
+    },
+  },
 }, { timestamps: true });
 
-
 module.exports = mongoose.models.OrderModel || mongoose.model('OrderModel', OrderSchema);
-

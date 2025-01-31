@@ -34,11 +34,11 @@ export default async function handler(req, res) {
 
   try {
     // Find the main product based on the slug provided
-    const product = await Product.findOne({ slug: Slug });
+    const product = await Product.findOne({ slug: Slug }).populate('category','name');
     if (!product) {
       return res.status(404).json({ success: false, message: 'Product not found' });
     }
-
+   console.log('product in slug ',product);
     // Find all variants with the same title to get different colors and sizes
     const variants = await Product.find({ title: product.title });
     let colorSizeSlug = {};

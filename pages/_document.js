@@ -1,13 +1,23 @@
-import { Html, Head, Main, NextScript } from "next/document";
+// pages/_document.js
 
-export default function Document() {
+import { Html, Head, Main, NextScript } from 'next/document';
+
+const Document = () => {
   return (
     <Html lang="en">
-      <Head />
+      <Head>
+        <style>{`
+          html {
+            overflow-x: hidden; /* Prevent horizontal scrolling */
+          }
+        `}</style>
+      </Head>
       <body>
         <Main />
         <NextScript />
       </body>
     </Html>
   );
-}
+};
+
+export default Document;

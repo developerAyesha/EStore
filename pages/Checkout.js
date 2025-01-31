@@ -5,15 +5,13 @@ import { useForm } from 'react-hook-form';
 import { CiCirclePlus,CiCircleMinus } from "react-icons/ci";
 import { IoBagCheck } from "react-icons/io5";
 import Link from 'next/link';
-import { loadStripe } from "@stripe/stripe-js";
-import { Elements } from "@stripe/react-stripe-js";
-import CheckoutForm from './CheckoutForm';
+
 import { setOrderDetails } from './Store/OrderSlice';
 import { addCart,RemoveCart,clearCart } from './Store/cartSlice';
 import { useDispatch,useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 
-const stripePromise = loadStripe("pk_test_51QWsTMKI9r1mcgcwAlD4cOjLveSsz2NWmpVNKjPBnXJX3CLS1Sh9VsmCvGa52ZxmUbi9wxejxUcJSKxatsyTzu8500GiOF1J64");
+
 
 const Checkout = ({subtotal,tempCart,clearTempCart}) => {
   const [total, setTotal] = useState(0); 
@@ -270,9 +268,6 @@ const Checkout = ({subtotal,tempCart,clearTempCart}) => {
         </div>
       </form>
     
-      <Elements stripe={stripePromise}>
-  <CheckoutForm/>
-  </Elements>
      
     </div>
     

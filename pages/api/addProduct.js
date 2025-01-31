@@ -1,5 +1,16 @@
 import mongoose from 'mongoose';
 const Product = require('../../Models/Product'); 
+import Category from '@/Models/Category';
+import upload from '@/Middleware/Multer';
+import { uploadToCloudinary } from '@/utils/Cloudinary';
+
+
+
+export const config = {
+  api: {
+    bodyParser: false, // Disable default body parser for multipart data
+  },
+};
 
 const DbConnection = async () => {
   if (mongoose.connections[0].readyState) {
@@ -19,42 +30,53 @@ const DbConnection = async () => {
 };
 
 export default async function handler(req, res) {
-  console.log('Handler started');
+  if (req.method === "POST") {
+    // Use the Multer middleware
+    upload.single("img")(req, {}, async (err) => {
+      if (err) {
+        console.error("File upload error:", err);
+        return res.status(400).json({ success: false, message: "File upload failed" });
+      }
 
-  try {
-    await DbConnection();
-  } catch (error) {
-    console.error('Error establishing database connection:', error);
-    return res.status(500).json({ success: false, message: 'Failed to connect to the database' });
-  }
+      console.log("Request body:", req.body);
+      console.log("Uploaded file:", req.file);
 
-  console.log('Database connection established');
+      // Proceed with your logic
+      try {
+        await DbConnection();
+ 
+        const fileBuffer = req.file.buffer;
+        const uploadResult = await uploadToCloudinary(
+          `data:${req.file.mimetype};base64,${fileBuffer.toString('base64')}`
+        );
 
-  try {
-   if(req.method=='POST'){
-    for(let i=0;i<req.body.length;i++){
-    let p =new Product({
-        title: req.body[i].title,
-        slug: req.body[i].slug,
-        desc: req.body[i].desc,
-        price: req.body[i].price,
-        img: req.body[i].img,
-        category: req.body[i].category,
-        color: req.body[i].color,
-        size: req.body[i].size,
-        availableQuantity:req.body[i].availableQuantity
-    })
-    await p.save();
-   }
-   return res.status(200).json({success:true,message:"product are added succesfully"})
+        // Extract Cloudinary URL
+        const imageUrl = uploadResult.secure_url;
 
-}
-   else {
-    return res.status(400).json({ success: false, message: 'this method is not allowed ' })
-   }
-   
-  } catch (error) {
-    console.error('Error retrieving orders:', error);
-    return res.status(500).json({ success: false, message: 'Internal Server Error' });
+        const categoryDoc = await Category.findOne({ name: req.body.category });
+        if (!categoryDoc) {
+          return res.status(400).json({ message: 'Category not found.' });
+        }
+  
+        const product = new Product({
+          title: req.body.title,
+          slug: req.body.slug,
+          desc: req.body.desc,
+          price: req.body.price,
+          img: imageUrl, // Save the file's buffer or path
+          category: categoryDoc._id,
+          color: req.body.color,
+          size: req.body.size,
+          availableQuantity: req.body.availableQuantity,
+        });
+        await product.save();
+        return res.status(200).json({ success: true, message: "Product added successfully" });
+      } catch (error) {
+        console.error("Error saving product:", error);
+        return res.status(500).json({ success: false, message: "Internal Server Error" });
+      }
+    });
+  } else {
+    return res.status(405).json({ success: false, message: "Method not allowed" });
   }
 }
