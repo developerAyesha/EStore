@@ -23,7 +23,56 @@ const Tshirts = ({ data }) => {
   pauseOnHover
 />
 
-<section className="text-gray-600 body-font bg-gray-50">
+
+<section>
+
+<div>
+<div className="container max-w-[1200px] mx-auto pt-28 px-4 static">
+
+  <div className='flex flex-wrap '>
+    {data && Object.keys(data).length>0 && (
+      Object.keys(data).map((product,index)=>(
+
+        <div  key={index} className='lg:w-1/4  md:w-1/2 sm:w-full px-2 pb-8'>
+        <figure> <img src={data[product]?.img||"/collection1.jpg"} alt="cat1" /></figure>
+       <Link href={`/Product/${data[product].slug}`}> <h4 className=" block font-medium text-left mt-2  ">
+        {data[product]?.title}
+                      </h4> </Link>
+                      <p className=" text-left font-normal mt-1"> ${data[product]?.price}</p>
+                      
+        </div>
+     
+      ))
+    )}
+
+
+   
+ 
+    
+
+    
+
+  </div>
+  </div>
+</div>
+
+<div className='pagination mt-6 '> 
+      <ul className='flex justify-center align-middle gap-x-1' >
+           
+              <li className='p-2 hover:bg-black hover:text-white cursor-pointer'>Prev</li>
+              <li className='py-2 px-4 hover:bg-black hover:text-white cursor-pointer'>1</li>
+              <li className='p-2  px-4 bg-black text-white cursor-pointer'>2</li>
+              <li className='p-2 px-4  hover:bg-black hover:text-white cursor-pointer'>3</li>
+              <li className='p-2 px-4 hover:bg-black hover:text-white cursor-pointer'>4</li>
+              <li className='p-2   hover:bg-black hover:text-white cursor-pointer'>Next</li>
+
+            </ul>
+   
+    </div>
+
+</section>
+
+{/* <section className="text-gray-600 body-font bg-gray-50">
   <div className="container mx-auto px-5 md:px-10 lg:px-32 py-12">
     <div className="flex flex-wrap justify-center -m-4">
       {data && Object.keys(data).length > 0 ? (
@@ -37,7 +86,7 @@ const Tshirts = ({ data }) => {
                   src={data[product]?.img || "https://m.media-amazon.com/images/I/9112xNSIlqL._AC_SX569_.jpg"}
                 />
                 {/* Hover Overlay */}
-                <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300"></div>
+                {/* <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300"></div>
               </div>
             </Link>
             <div className="mt-4">
@@ -52,7 +101,7 @@ const Tshirts = ({ data }) => {
               
               </div>
               {/* Colors */}
-              <div>
+              {/* <div>
                   {["XS", "S", "M", "L", "XL", "XXL"].map((size) =>
                     data[product]?.size.includes(size) ? (
                       <span key={size} className="border border-gray-500 px-1.5 mx-1">{size}</span>
@@ -81,7 +130,7 @@ const Tshirts = ({ data }) => {
       )}
     </div>
   </div>
-</section>
+</section> */} 
 
 
     </section>

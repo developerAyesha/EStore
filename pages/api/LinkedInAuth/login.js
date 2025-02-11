@@ -62,7 +62,7 @@ export default async function handler(req, res) {
           res.redirect("/login");
         }
 
-    res.status(200).json({ accessToken: access_token, profile});
+    res.status(200).json({ accessToken: access_token, user});
   } catch (error) {
     console.error("LinkedIn API error:", error);
     res.status(500).json({ message: "Internal Server Error" });

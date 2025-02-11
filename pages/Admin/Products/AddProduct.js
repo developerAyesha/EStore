@@ -91,15 +91,15 @@ const AddProduct = ({Categories}) => {
 
   return (
     <Layout>
-      <form onSubmit={handleSubmit(onSubmit)} className="w-1/2 mx-auto mt-10 p-6 bg-white rounded-lg shadow-lg">
+      <form onSubmit={handleSubmit(onSubmit)} className="w-1/2 mx-auto mt-1 p-6 bg-white rounded-lg shadow-lg">
    
         <h1 className="text-center font-bold text-2xl text-gray-800 mb-6">Add New Product</h1>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3">
           <div className="form-group">
             <label className="uppercase  text-sm text-black font-bold">Product Name</label>
             <input
-              className="w-full p-1.5 mt-2 border border-gray-300 rounded-lg  focus:ring-pink-600"
+              className="w-full p-1.5 mt-1 border border-gray-300 rounded-lg  focus:ring-pink-600"
               {...register('title', {
                 required: { value: true, message: 'Product name is required.' },
               })}
@@ -111,7 +111,7 @@ const AddProduct = ({Categories}) => {
           <div className="form-group">
             <label className="uppercase font-bold text-sm text-black">Item Code</label>
             <input
-              className="w-full p-1.5 mt-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-600"
+              className="w-full p-1.5 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-600"
               {...register('slug', {
                 required: { value: true, message: 'Item Code is required.' },
               })}
@@ -146,7 +146,7 @@ const AddProduct = ({Categories}) => {
           <div className="form-group col-span-2">
             <label className="uppercase font-bold text-sm text-black">Description</label>
             <textarea
-              className="w-full p-1.5 mt-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-600"
+              className="w-full p-1.5 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-600"
               {...register('desc', {
                 required: { value: true, message: 'Description is required.' },
               })}
@@ -198,7 +198,7 @@ const AddProduct = ({Categories}) => {
           <div className="form-group">
             <label className="uppercase font-bold text-sm text-black">Quantity</label>
             <input
-              className="w-full p-1.5 mt-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-600"
+              className="w-full p-1.5 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-600"
               {...register('availableQuantity', {
                 required: { value: true, message: 'Quantity is required.' },
               })}
@@ -211,7 +211,7 @@ const AddProduct = ({Categories}) => {
           <div className="form-group">
             <label className="uppercase font-bold text-sm text-black">Price</label>
             <input
-              className="w-full p-1.5  mt-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-600"
+              className="w-full p-1.5  mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-600"
               {...register('price', {
                 required: { value: true, message: 'Price is required.' },
               })}

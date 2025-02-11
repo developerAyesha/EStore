@@ -27,7 +27,7 @@ export default function Home() {
       </Head>
    
      <div>
-      <img src='https://cdn.shopify.com/s/files/1/0070/7032/files/ecommerce_20platforms.png ' className="object-cover w-full h-1/6"></img>
+      <img src='https://cdn.shopify.com/s/files/1/0070/7032/files/ecommerce_20platforms.png' className="object-cover w-full h-1/6"></img>
      </div>
   
      

@@ -6,9 +6,9 @@ import { useRouter } from "next/router";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Provider } from 'react-redux';
+import { store, persistor } from "./Store/store";
+import { PersistGate } from "redux-persist/integration/react";
 
-import { store, persistor } from "./Store/store";  
-import { PersistGate } from "redux-persist/integration/react";  
 export default function App({ Component, pageProps: { session, ...pageProps } }) {
   const [cart, setCart] = useState({});
   const [tempCart, setTempCart] = useState({});
@@ -16,6 +16,9 @@ export default function App({ Component, pageProps: { session, ...pageProps } })
   const [user, setUser] = useState({});
   const [key, setKey] = useState();
   const router = useRouter();
+
+  // Check if the current page is an admin page
+  const isAdminPage = router.pathname.startsWith("/Admin");
 
   useEffect(() => {
     try {
@@ -42,45 +45,49 @@ export default function App({ Component, pageProps: { session, ...pageProps } })
     setSubtotal(subt);
   };
 
- 
   const buyNow = (itemCode, quantity, price, name, color, size) => {
     const newCart = { itemCode, quantity, price, name, color, size };
     setTempCart(newCart);
     toast.success("Proceeding to Checkout!");
     router.push("/Checkout");
   };
-   const clearTempCart = ()=>{
-    setTempCart({});
-   }
 
- 
+  const clearTempCart = () => {
+    setTempCart({});
+  };
 
   return (
-      <>
+    <>
       <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-      <Navbar
-        key={key}
-        user={user}
-        cart={cart}
-        clearTempCart={clearTempCart}
-        subtotal={subtotal}
-      
-      />
-      <Component
-        cart={cart}
-        tempCart={tempCart}
-      
-        subtotal={subtotal}
-        buyNow={buyNow}
-        clearTempCart={clearTempCart}
-        {...pageProps}
-      />
-      <Footer />
-      <ToastContainer />
-      </PersistGate>
+        <PersistGate loading={null} persistor={persistor}>
+          {/* Conditionally render Navbar for non-admin pages */}
+          {!isAdminPage && (
+            <Navbar
+              key={key}
+              user={user}
+              cart={cart}
+              clearTempCart={clearTempCart}
+              subtotal={subtotal}
+            />
+          )}
+
+          {/* Main Content */}
+          <Component
+            cart={cart}
+            tempCart={tempCart}
+            subtotal={subtotal}
+            buyNow={buyNow}
+            clearTempCart={clearTempCart}
+            {...pageProps}
+          />
+
+          {/* Conditionally render Footer for non-admin pages */}
+          {!isAdminPage && <Footer />}
+
+          {/* Toast Container */}
+          <ToastContainer />
+        </PersistGate>
       </Provider>
-      </>
+    </>
   );
 }
-

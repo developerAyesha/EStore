@@ -1,4 +1,4 @@
-const mongoose =require('mongoose')  // Ensure this is at the top of your file
+const mongoose =require('mongoose')  
 
 const ProductSchema = new mongoose.Schema({
     title: {
@@ -26,7 +26,6 @@ const ProductSchema = new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref: 'Category',
         required:true
-
     },
     color: {
         type: String,
